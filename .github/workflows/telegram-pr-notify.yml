@@ -10,7 +10,7 @@ on:
 jobs:
   notify:
     runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.labels.*.name, 'manual')
+    # if: contains(github.event.pull_request.labels.*.name, 'manual')
     steps:
       - uses: appleboy/telegram-action@master
         with:
