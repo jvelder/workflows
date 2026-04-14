@@ -1,0 +1,26 @@
+# .github/workflows/telegram-pr-notify.yml
+on:
+  workflow_call:
+    secrets:
+      TELEGRAM_BOT_TOKEN:
+        required: true
+      TELEGRAM_CHAT_ID:
+        required: true
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    if: |
+      !contains(github.event.pull_request.labels.*.name, 'patch') &&
+      !contains(github.event.pull_request.labels.*.name, 'minor')
+    steps:
+      - uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          format: markdown
+          message: |
+            🔔 *New PR:* [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }})
+            👤 `${{ github.event.pull_request.user.login }}`
+            🏷️ `${{ join(github.event.pull_request.labels.*.name, ', ') }}`
+            📦 `${{ github.repository }}`
