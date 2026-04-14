@@ -10,7 +10,12 @@ on:
 jobs:
   notify:
     runs-on: ubuntu-latest
+    # nur bei "manual" gelabelten PRs
     # if: contains(github.event.pull_request.labels.*.name, 'manual')
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'major') ||
+      contains(github.event.pull_request.labels.*.name, 'minor') ||
+      contains(github.event.pull_request.labels.*.name, 'patch')
     steps:
       - uses: appleboy/telegram-action@master
         with:
