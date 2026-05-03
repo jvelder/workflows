@@ -11,6 +11,8 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
+      - name: Wait for potential duplicates
+        run: sleep 15
       - uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
